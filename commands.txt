@@ -1,0 +1,14 @@
+
+# --- help with the installation of guest additions for virtualbox
+vagrant plugin install vagrant-vbguest
+
+# --- when you install the guest additions you may want to reload
+vagrant plugin install vagrant-reload
+
+vagrant init debian/jessie64; vagrant up --provider virtualbox
+
+vagrant ssh
+   > sudo apt-get update
+   > sudo apt-get install -y gnome-core
+   > sudo apt-get autoremove
+   > sudo apt-get autoclean

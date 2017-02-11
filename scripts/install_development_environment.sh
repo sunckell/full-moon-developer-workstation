@@ -1,9 +1,10 @@
 #!/bin/bash
 # ---
-# ---  name:   configure_desktop.sh
+# ---  name:   install_development_environment.sh
 # ---  author: ckell <sunckell at that google mail site>
 # ---  date:   Jan 6, 2017
-# ---  descr:  Provisioning script.  Installs and configures the dekstop
+# ---  descr:  Provisioning script.  Installs and configures a development environment
+# ---          specific to the needs of the project
 # ----
 # ---  notes:
 # ---
@@ -30,24 +31,12 @@ update_package_cache()
     fi
 }
 
-# --- install the desktop I like to use.  (let the desktop wars begin.)
-install_desktop()
-{
-    logger "installing gnome-core"
-    sudo apt-get -qq install -y gnome-core
-    if [ "$?" != 0 ]; then
-      logger "ERROR: gnome-core installation failed."
-      logger "ERROR: please investigate.  exitting.."
-      exit 2
-    fi
-}
 
 # --- a sane place to kick of the actions
 main()
 {
   logger "starting ${SCRIPT}......"
   update_package_cache
-  install_desktop
 
   logger "done. exitting, stage right!"
 }

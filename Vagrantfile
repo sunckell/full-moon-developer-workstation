@@ -6,6 +6,27 @@
 # backwards compatibility). Please don't change it unless you know what
 # you're doing.
 Vagrant.configure("2") do |config|
+
+  # --- vagrant-vbguest plugin configurations
+  # --- https://github.com/dotless-de/vagrant-vbguest
+
+  # we will try to autodetect this path.
+  # However, if we cannot or you have a special one you may pass it like:
+  # config.vbguest.iso_path = "#{ENV['HOME']}/Downloads/VBoxGuestAdditions.iso"
+  # or an URL:
+  # config.vbguest.iso_path = "http://company.server/VirtualBox/%{version}/VBoxGuestAdditions.iso"
+  # or relative to the Vagrantfile:
+  # config.vbguest.iso_path = File.expand_path("../relative/path/to/VBoxGuestAdditions.iso", __FILE__)
+
+  # set auto_update to false, if you do NOT want to check the correct
+  # additions version when booting this machine
+  config.vbguest.auto_update = true
+
+  # do NOT download the iso file from a webserver
+  config.vbguest.no_remote = true
+
+
+
   # The most common configuration options are documented and commented below.
   # For a complete reference, please see the online documentation at
   # https://docs.vagrantup.com.
@@ -43,13 +64,13 @@ Vagrant.configure("2") do |config|
   # backing providers for Vagrant. These expose provider-specific options.
   # Example for VirtualBox:
   #
-  # config.vm.provider "virtualbox" do |vb|
-  #   # Display the VirtualBox GUI when booting the machine
-  #   vb.gui = true
-  #
-  #   # Customize the amount of memory on the VM:
-  #   vb.memory = "1024"
-  # end
+  config.vm.provider "virtualbox" do |vb|
+     # Display the VirtualBox GUI when booting the machine
+     vb.gui = true
+
+     # Customize the amount of memory on the VM:
+     vb.memory = "2048"
+   end
   #
   # View the documentation for the provider you are using for more
   # information on available options.
@@ -68,4 +89,19 @@ Vagrant.configure("2") do |config|
   #   apt-get update
   #   apt-get install -y apache2
   # SHELL
+
+  # --- custominzing via provisioners
+  config.vm.provision "shell", path: "scripts/configure_desktop.sh"
+
+  # --- install the Hashicorp stack of tools
+  config.vm.provision "file", source: "files/hashicorp.asc", destination: "/tmp/hashicorp.asc"
+  config.vm.provision "shell", path: "scripts/install_hashicorp_stack.sh"
+  config.vm.provision "shell", path: "scripts/configure_desktop.sh"
+
+  # --- install some extra software that make our lives easier.
+  config.vm.provision "shell", path: "scripts/install_extra_software.sh"
+
+  # --- sometimes it makes sense to reload you vm during provisioning.
+  # --- https://github.com/aidanns/vagrant-reload
+  config.vm.provision :reload
 end
