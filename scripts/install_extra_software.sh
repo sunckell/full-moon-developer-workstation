@@ -7,8 +7,9 @@
 # ----
 # ---  notes:
 # ---
-
-SCRIPT=`basename $0`
+export DEBIAN_FRONTEND="noninteractive"
+#SCRIPT=`basename $0`
+SCRIPT="install_extra_software.sh"
 HOSTNAME=`uname -n`
 
 # --- simple logger to give me an idea of what's happening when.
@@ -41,6 +42,15 @@ install_atom_io()
       exit 2
     fi
 
+    logger "installing pre-req for atom.io"
+    sudo apt-get -qq install git xdg-utils libxss1
+    if [ "$?" != 0 ]; then
+      logger "ERROR: atom.io pre-reqs installation failed."
+      logger "ERROR: please investigate.  exitting.."
+      exit 2
+    fi
+
+
     sudo dpkg -i atom.deb
     if [ "$?" != 0 ]; then
       logger "ERROR: atom.deb installation failed."
@@ -50,10 +60,10 @@ install_atom_io()
 
     # --- install the atom plugins we use the most.
     logger "install file-icons plugins"
-    apm install file-icons
-    apm install language-hcl
-    apm install language-terraform
-    apm install markdown-writer
+    sudo -H -u vagrant apm install file-icons
+    sudo -H -u vagrant apm install language-hcl
+    sudo -H -u vagrant apm install language-terraform
+    sudo -H -u vagrant apm install markdown-writer
 
 }
 

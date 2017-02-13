@@ -8,7 +8,10 @@
 # ---         * until we get a base image, we'll install them individually.
 # --- TODO:   create a directory to store the binaries in version path and link
 # ---         it to latest.  This will allow testing of multiple versions.
-SCRIPT=`basename $0`
+export DEBIAN_FRONTEND="noninteractive"
+#SCRIPT=`basename $0`
+SCRIPT="install_hashicorp_stack.sh"
+HOSTNAME=`uname -n`
 
 # --- simple logger to give me an idea of what's happening when.
 logger()
@@ -24,8 +27,8 @@ install_prereqs()
 {
     logger "installing pre-reqs"
 
-    logger "installing unzip"
-    sudo apt-get -qq install -y unzip
+    logger "installing unzip and curl"
+    sudo apt-get -qq install -y unzip curl
     if [ $? -ne 0 ]; then
         logger "ERROR: install of unzip failed."
         logger "ERROR: cancelling build. please investigate."

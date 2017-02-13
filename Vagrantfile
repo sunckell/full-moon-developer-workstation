@@ -65,11 +65,15 @@ Vagrant.configure("2") do |config|
   # Example for VirtualBox:
   #
   config.vm.provider "virtualbox" do |vb|
-     # Display the VirtualBox GUI when booting the machine
+     # --- display the VirtualBox GUI when booting the machine
      vb.gui = true
 
-     # Customize the amount of memory on the VM:
+     # -- customize the amount of memory on the VM:
      vb.memory = "2048"
+
+     # --- make some more custom virtualbox configurations
+     vb.customize ["modifyvm", :id, "--vram", "128"]
+     vb.customize ['modifyvm', :id, '--clipboard', 'bidirectional']
    end
   #
   # View the documentation for the provider you are using for more
@@ -97,11 +101,12 @@ Vagrant.configure("2") do |config|
   config.vm.provision "file", source: "files/hashicorp.asc", destination: "/tmp/hashicorp.asc"
   config.vm.provision "shell", path: "scripts/install_hashicorp_stack.sh"
   config.vm.provision "shell", path: "scripts/configure_desktop.sh"
+  config.vm.provision "shell", path: "scripts/install_cloud_sdk.sh"  
 
   # --- install some extra software that make our lives easier.
   config.vm.provision "shell", path: "scripts/install_extra_software.sh"
 
-  # --- sometimes it makes sense to reload you vm during provisioning.
+  # --- sometimes it makes sense to reload your vm during.
   # --- https://github.com/aidanns/vagrant-reload
   config.vm.provision :reload
 end

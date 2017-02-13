@@ -7,8 +7,9 @@
 # ----
 # ---  notes:
 # ---
-
-SCRIPT=`basename $0`
+export DEBIAN_FRONTEND="noninteractive"
+#SCRIPT=`basename $0`
+SCRIPT="configure_desktop.sh"
 HOSTNAME=`uname -n`
 
 # --- simple logger to give me an idea of what's happening when.

@@ -7,7 +7,7 @@
 # ----         to do
 # ---  notes:
 # ---
-
+export DEBIAN_FRONTEND="noninteractive"
 SCRIPT=`basename $0`
 HOSTNAME=`uname -n`
 
