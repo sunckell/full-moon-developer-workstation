@@ -1,0 +1,7 @@
+# --- example of external configuration file for vagrant
+vm:
+  cpus: 2
+  memory: 2048
+  name: full-moon-developer-desktop
+  hostname: full-moon-development
+  timezone: 'UTC'

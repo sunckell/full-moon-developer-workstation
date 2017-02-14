@@ -83,7 +83,6 @@ install_idea_ultimate()
        exit 2
     fi
 
-    sudo -H -u vagrant mv
 
 }
 
